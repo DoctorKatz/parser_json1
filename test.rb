@@ -11,6 +11,8 @@ class AnalysisError
   def self.data_from_json
     #@event_ids = hash.new
     @error_hash = JSON.parse(@@file)
+    @items = 0
+    @errors = 0
 
     @error_hash.each do |key, val|
       if key == "ImportInfo"
@@ -26,12 +28,19 @@ class AnalysisError
         error_items = val
         puts(error_items)
         error_items.each do |key, val|
-          puts(key)
-          case key
-          when "Item"
-            puts(val)
-          when "Errors"
-            puts(val)
+          item = key
+          item.each do |key, val| #возможно неправильно собран json или у меня кривые руки
+            i, j = 0
+            case key
+            when "Item"
+              @items = val
+              i += 1
+              puts(items)
+            when "Errors"
+              @errors = val
+              j += 1
+              puts(errors)
+            end
           end
         end
       end
